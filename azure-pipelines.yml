@@ -54,6 +54,6 @@ steps:
     regionName: 'us-east-1'
     bucketName: 'dev-demo-stage'
     sourceFolder: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    globExpressions: '**'
+    globExpressions: '*.zip'
     targetFolder: '$(S3-target-folder)'
     createBucket: true
