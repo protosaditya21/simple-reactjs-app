@@ -12,6 +12,7 @@ pool:
 variables:
   directory: react-azure-demo
   S3-target-folder: abc-company
+  env: dev
 
 steps:
 - task: NodeTool@0
@@ -60,11 +61,11 @@ steps:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
     includeRootFolder: true
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/build/$(Build.BuildNumber)-$(Build.DefinitionVersion).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/build/$(Build.BuildNumber)-$(Build.DefinitionVersion)-$(env).zip'
     replaceExistingArchive: true
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/build/$(Build.BuildNumber)-$(Build.DefinitionVersion).zip'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/build/$(Build.BuildNumber)-$(Build.DefinitionVersion)-$(env).zip'
     ArtifactName: 'drop'
     publishLocation: 'Container'
     StoreAsTar: true
