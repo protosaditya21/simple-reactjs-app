@@ -11,6 +11,7 @@ pool:
   
 variables:
   directory: react-azure-demo
+  S3-target-folder: abc-company
 
 steps:
 - task: NodeTool@0
@@ -47,3 +48,13 @@ steps:
     ArtifactName: 'drop'
     publishLocation: 'Container'
     StoreAsTar: true
+- task: S3Upload@1
+  inputs:
+    awsCredentials: 
+
+    
+    regionName: 'us-east-1'
+    bucketName: 'dev-demo-stage'
+    sourceFolder: '$(Build.ArtifactStagingDirectory)'
+    globExpressions: '**'
+    targetFolder: '$(S3-target-folder)'
