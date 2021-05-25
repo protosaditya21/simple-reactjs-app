@@ -10,8 +10,7 @@ pool:
   vmImage: ubuntu-latest
   
 variables:
-  uisource: src
-  uibuild: $(uisource)/build
+  directory: simple-reactjs-app
   S3-target-folder: abc-company
   env: dev
 
@@ -22,11 +21,14 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    pushd $(uisource)
     npm install
+  displayName: 'npm install'
+  
+
+- script: |
     npm run build
-    popd
-  displayName: 'npm install and run build'
+  displayName: 'npm build'
+
 - task: Bash@3
   inputs:
     targetType: 'inline'
@@ -38,18 +40,25 @@ steps:
       echo "$(build.artifactstagingdirectory)"
       cd $(build.artifactstagingdirectory)
       ls -lart
-
+    
 - task: CopyFiles@1
   inputs:
     SourceFolder: '$(agent.builddirectory)'
     Contents: '**'
     TargetFolder: '$(build.artifactstagingdirectory)'
     CleanTargetFolder: true
- 
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "$(build.artifactstagingdirectory)"
+      cd $(build.artifactstagingdirectory)
+      ls -lart
+      echo 'Hello world'   
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(uibuild)'
-    includeRootFolder: false
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+    includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/build/$(Build.BuildNumber)-$(Build.DefinitionVersion)-$(env).zip'
     replaceExistingArchive: true
@@ -58,7 +67,7 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)/build/$(Build.BuildNumber)-$(Build.DefinitionVersion)-$(env).zip'
     ArtifactName: 'drop'
     publishLocation: 'Container'
-    
+    StoreAsTar: true
 - task: Bash@3
   inputs:
     targetType: 'inline'
