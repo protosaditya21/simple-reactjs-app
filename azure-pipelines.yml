@@ -50,11 +50,9 @@ steps:
     StoreAsTar: true
 - task: S3Upload@1
   inputs:
-    awsCredentials: 
-
-    
+    awsCredentials: 's3-service-conn'
     regionName: 'us-east-1'
     bucketName: 'dev-demo-stage'
     sourceFolder: '$(Build.ArtifactStagingDirectory)'
     globExpressions: '**'
-    targetFolder: '$(S3-target-folder)'
+    targetFolder: 'S3-target-folder'
