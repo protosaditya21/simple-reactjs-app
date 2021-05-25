@@ -47,7 +47,14 @@ steps:
     Contents: '**'
     TargetFolder: '$(build.artifactstagingdirectory)'
     CleanTargetFolder: true
-   
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo "$(build.artifactstagingdirectory)"
+      cd $(build.artifactstagingdirectory)
+      ls -lart
+      echo 'Hello world'   
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
