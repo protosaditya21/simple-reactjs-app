@@ -55,5 +55,5 @@ steps:
     bucketName: 'dev-demo-stage'
     sourceFolder: '$(Build.ArtifactStagingDirectory)'
     globExpressions: '**'
-    targetFolder: 'S3-target-folder'
+    targetFolder: '$(S3-target-folder)'
     createBucket: true
