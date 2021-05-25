@@ -60,11 +60,11 @@ steps:
     rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
     includeRootFolder: true
     archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/build/$(Build.BuildNumber).zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/build/$(Build.BuildNumber)-$(Build.DefinitionVersion).zip'
     replaceExistingArchive: true
 - task: PublishBuildArtifacts@1
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)/build/$(Build.BuildNumber).zip'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/build/$(Build.BuildNumber)-$(Build.DefinitionVersion).zip'
     ArtifactName: 'drop'
     publishLocation: 'Container'
     StoreAsTar: true
