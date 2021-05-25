@@ -27,6 +27,20 @@ steps:
 - script: |
     npm run build
   displayName: 'npm build'
+
+    
+- script: |
+    echo $(agent.builddirectory)
+
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      
+      echo "$(agent.builddirectory)"
+      echo "$(build.artifactstagingdirectory)"
+      echo 'Hello world'
     
 - task: CopyFiles@1
   inputs:
