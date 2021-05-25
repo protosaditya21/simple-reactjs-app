@@ -8,6 +8,9 @@ trigger:
 
 pool:
   vmImage: ubuntu-latest
+  
+variables:
+  directory: react-azure-demo
 
 steps:
 - task: NodeTool@0
@@ -19,3 +22,25 @@ steps:
     npm install
     npm run build
   displayName: 'npm install and build'
+  workingDirectory: $(directory)
+
+- task: CopyFiles@1
+  inputs:
+    SourceFolder: '$(directory)/build'
+    Contents: '**'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+    CleanTargetFolder: true
+   
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+    StoreAsTar: true
