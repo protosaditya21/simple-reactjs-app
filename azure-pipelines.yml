@@ -56,3 +56,4 @@ steps:
     sourceFolder: '$(Build.ArtifactStagingDirectory)'
     globExpressions: '**'
     targetFolder: 'S3-target-folder'
+    createBucket: true
